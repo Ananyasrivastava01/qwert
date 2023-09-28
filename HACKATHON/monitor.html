@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Research Progress Monitoring</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        h2 {
+            margin-top: 20px;
+        }
+
+        input[type="text"], input[type="number"] {
+            padding: 10px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #progressReport {
+            margin-top: 20px;
+        }
+
+        #progressReport textarea {
+            width: 100%;
+            height: 150px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Research Progress Monitoring</h1>
+    
+    <h2>Add a Progress Report</h2>
+    <input type="text" id="studentName" placeholder="Student Name">
+    <input type="text" id="reportTitle" placeholder="Report Title">
+    <textarea id="reportContent" placeholder="Report Content"></textarea>
+    <button onclick="addProgressReport()">Add Progress Report</button>
+
+    <h2>Progress Reports</h2>
+    <div id="progressReport"></div>
+
+    <script>
+        function addProgressReport() {
+            const studentName = document.getElementById("studentName").value;
+            const reportTitle = document.getElementById("reportTitle").value;
+            const reportContent = document.getElementById("reportContent").value;
+
+            if (!studentName || !reportTitle || !reportContent) {
+                alert("Please fill in all fields.");
+                return;
+            }
+
+            // In a real application, you would send this data to the server for storage.
+
+            // For this simplified example, we'll just display the report on the page.
+            displayProgressReport(studentName, reportTitle, reportContent);
+        }
+
+        function displayProgressReport(studentName, reportTitle, reportContent) {
+            const progressReportDiv = document.getElementById("progressReport");
+            const reportDiv = document.createElement("div");
+            reportDiv.innerHTML = `<strong>${studentName}</strong> - <em>${reportTitle}</em><br>${reportContent}<hr>`;
+            progressReportDiv.appendChild(reportDiv);
+        }
+    </script>
+</body>
+</html>

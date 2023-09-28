@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student-Guide Ratio</title>
+</head>
+<body>
+    <h1>Student-Guide Ratio Management</h1>
+    
+    <h2>Add a Guide</h2>
+    <input type="text" id="guideName" placeholder="Guide Name">
+    <input type="number" id="maxStudents" placeholder="Max Students">
+    <button onclick="addGuide()">Add Guide</button>
+
+    <h2>Add a Student</h2>
+    <input type="text" id="studentName" placeholder="Student Name">
+    <button onclick="addStudent()">Add Student</button>
+
+    <h2>Distribute Students</h2>
+    <button onclick="distributeStudents()">Distribute Students</button>
+
+    <h2>Student-Guide Assignments</h2>
+    <ul id="assignments"></ul>
+
+    <script>
+        const guides = [];
+        const students = [];
+
+        function addGuide() {
+            const guideName = document.getElementById("guideName").value;
+            const maxStudents = parseInt(document.getElementById("maxStudents").value);
+
+            if (!guideName || isNaN(maxStudents) || maxStudents <= 0) {
+                alert("Please enter valid guide information.");
+                return;
+            }
+
+            guides.push({ name: guideName, maxStudents });
+            alert(`Guide "${guideName}" added.`);
+        }
+
+        function addStudent() {
+            const studentName = document.getElementById("studentName").value;
+
+            if (!studentName) {
+                alert("Please enter a valid student name.");
+                return;
+            }
+
+            students.push({ name: studentName, guide: null });
+            alert(`Student "${studentName}" added.`);
+        }
+
+        function distributeStudents() {
+            for (const student of students) {
+                const availableGuides = guides.filter(guide => guide.maxStudents > (guide.students || []).length);
+                if (availableGuides.length === 0) {
+                    alert(`No available guides for student "${student.name}"`);
+                    continue;
+                }
+
+                const selectedGuide = availableGuides[0];
+                selectedGuide.students = selectedGuide.students || [];
+                selectedGuide.students.push(student);
+                student.guide = selectedGuide;
+            }
+
+            updateAssignments();
+        }
+
+        function updateAssignments() {
+            const assignmentsList = document.getElementById("assignments");
+            assignmentsList.innerHTML = "";
+
+            for (const guide of guides) {
+                const studentsAssigned = (guide.students || []).map(student => student.name).join(", ");
+                const listItem = document.createElement("li");
+                listItem.textContent = `${guide.name} (Max Students: ${guide.maxStudents}) - Assigned Students: ${studentsAssigned}`;
+                assignmentsList.appendChild(listItem);
+            }
+        }
+    </script>
+</body>
+</html>
